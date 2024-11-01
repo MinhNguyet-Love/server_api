@@ -3,7 +3,8 @@ require('dotenv').config(); // Thêm dòng này
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const TravelNews = require('./models/TravelNews'); // import model
+const TravelNews = require('./models/TravelNews');
+const TravelNews1 = require('./models/thongbao'); // import model
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -29,6 +30,15 @@ app.get('/travel-news', async (req, res) => {
     res.status(500).send(error);
   }
 });
+// Endpoint để lấy danh sách tin tức du lịch
+app.get('/thongbao', async (req, res) => {
+    try {
+      const news = await TravelNews1.find();
+      res.json(news);
+    } catch (error) {
+      res.status(500).send(error);
+    }
+  });
 
 // Khởi động server
 app.listen(PORT, () => {
