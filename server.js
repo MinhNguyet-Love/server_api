@@ -5,7 +5,7 @@ const mongoose = require('mongoose');
 const cors = require('cors');
 const TravelNews = require('./models/TravelNews'); // Model cho TravelNews
 const TourNews = require('./models/TourNews'); // Model cho TourNews
-const TravelNews1 = require('./models/thongbaos'); // Import model thongbaos
+const TravelNews1 = require('./models/thongbao'); // Import model thongbaos
 
 const app = express();
 const PORT = process.env.PORT || 3000;
