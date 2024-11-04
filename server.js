@@ -1,11 +1,10 @@
-require('dotenv').config(); // Thêm dòng này
+require('dotenv').config(); // Đọc các biến môi trường từ file .env
 
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const TravelNews = require('./models/TravelNews');
-const TravelNews1 = require('./models/thongbao'); 
-const TourNews = require('./models/TourNews');// import model
+const TravelNews = require('./models/TravelNews'); // Nếu bạn đã có model cho TravelNews
+const TourNews = require('./models/TourNews'); // Import model TourNews
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -31,23 +30,34 @@ app.get('/travel-news', async (req, res) => {
     res.status(500).send(error);
   }
 });
-// Endpoint để lấy danh sách tin tức du lịch
-app.get('/thongbao', async (req, res) => {
-    try {
-      const news = await TravelNews1.find();
-      res.json(news);
-    } catch (error) {
-      res.status(500).send(error);
-    }
-  });
 
-  // Endpoint để lấy danh sách tour
-app.get('/tour', async (req, res) => {
+// Endpoint để lấy danh sách tour news
+app.get('/tour-news', async (req, res) => {
   try {
-    const news = await TourNews.find();
-    res.json(news);
+    const tourNews = await TourNews.find();
+    res.json(tourNews);
   } catch (error) {
     res.status(500).send(error);
+  }
+});
+
+// Endpoint để thêm một tour news mới
+app.post('/tour-news', async (req, res) => {
+  const { imageUrl, title, date, price, days } = req.body;
+
+  const newTourNews = new TourNews({
+    imageUrl,
+    title,
+    date,
+    price,
+    days,
+  });
+
+  try {
+    const savedTourNews = await newTourNews.save();
+    res.status(201).json(savedTourNews);
+  } catch (error) {
+    res.status(400).send(error);
   }
 });
 
