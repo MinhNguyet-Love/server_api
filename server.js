@@ -4,7 +4,7 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const TravelNews = require('./models/TravelNews'); // Model cho TravelNews
-const TravelNews1 = require('./models/thongbaos'); // Model cho thongbao
+const TravelNews1 = require('./models/thongbao'); // Model cho thongbao
 const TourNews = require('./models/TourNews'); // Model cho TourNews
 
 const app = express();
