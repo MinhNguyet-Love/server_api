@@ -3,7 +3,8 @@ require('dotenv').config(); // Đọc các biến môi trường từ file .env
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const TravelNews = require('./models/TravelNews'); // Nếu bạn đã có model cho TravelNews
+const TravelNews = require('./models/TravelNews');
+const TravelNews1 = require('./models/thongbaos'); // Nếu bạn đã có model cho TravelNews
 const TourNews = require('./models/TourNews'); // Import model TourNews
 
 const app = express();
@@ -25,6 +26,14 @@ mongoose.connect(process.env.MONGODB_URI, {
 app.get('/travel-news', async (req, res) => {
   try {
     const news = await TravelNews.find();
+    res.json(news);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
+app.get('/thongbao', async (req, res) => {
+  try {
+    const news = await TravelNews1.find();
     res.json(news);
   } catch (error) {
     res.status(500).send(error);
