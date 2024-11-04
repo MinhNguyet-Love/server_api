@@ -4,7 +4,8 @@ const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
 const TravelNews = require('./models/TravelNews');
-const TravelNews1 = require('./models/thongbao'); // import model
+const TravelNews1 = require('./models/thongbao'); 
+const TourNews = require('./models/TourNews');// import model
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -39,6 +40,16 @@ app.get('/thongbao', async (req, res) => {
       res.status(500).send(error);
     }
   });
+
+  // Endpoint để lấy danh sách tour
+app.get('/tour', async (req, res) => {
+  try {
+    const news = await TourNews.find();
+    res.json(news);
+  } catch (error) {
+    res.status(500).send(error);
+  }
+});
 
 // Khởi động server
 app.listen(PORT, () => {
