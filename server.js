@@ -75,3 +75,9 @@ app.post('/tour-news', async (req, res) => {
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
+
+
+
+// Sử dụng các route đã khai báo
+app.use('/', authRoutes); // Route cho đăng nhập
+app.use('/users', authRoutes); // Route cho stories
