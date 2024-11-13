@@ -1,63 +1,178 @@
-<!-- admin.ejs -->
-<%- include('header') %>
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Admin Dashboard</title>
+  <style>
+    /* Reset margin and padding */
+    * {
+      margin: 0;
+      padding: 0;
+      box-sizing: border-box;
+    }
 
-<!-- Form đăng nhập -->
-<div id="loginForm" class="box">
-    <h2 class="subtitle">Đăng nhập</h2>
-    <form action="/login" method="post">
-        <div class="field">
-            <label class="label">Tên đăng nhập</label>
-            <div class="control">
-                <input class="input" type="text" name="username" placeholder="Nhập tên đăng nhập" required>
-            </div>
-        </div>
+    /* Body styles */
+    body {
+      font-family: 'Segoe UI', Tahoma, Geneva, Verdana, sans-serif;
+      display: flex;
+      min-height: 100vh;
+      background-color: #f4f6f8;
+      color: #495057;
+      overflow-x: hidden;
+    }
 
-        <div class="field">
-            <label class="label">Mật khẩu</label>
-            <div class="control">
-                <input class="input" type="password" name="password" placeholder="Nhập mật khẩu" required>
-            </div>
-        </div>
+    /* Sidebar styles */
+    .sidebar {
+      width: 250px;
+      background-color: #343a40;
+      color: #fff;
+      position: fixed;
+      top: 0;
+      left: 0;
+      bottom: 0;
+      display: flex;
+      flex-direction: column;
+      padding: 20px;
+      box-shadow: 2px 0 5px rgba(0, 0, 0, 0.1);
+    }
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-primary" type="submit">Đăng nhập</button>
-            </div>
-        </div>
-    </form>
-</div>
+    .sidebar h2 {
+      color: #ffdd59;
+      margin-bottom: 20px;
+      text-transform: uppercase;
+      font-weight: bold;
+    }
 
-<!-- Form chỉnh sửa thông tin -->
-<div id="editForm" class="box" style="display: none;">
-    <h2 class="subtitle">Chỉnh sửa thông tin</h2>
-    <form action="/updateInfo" method="post">
-        <div class="field">
-            <label class="label">Họ và Tên</label>
-            <div class="control">
-                <input class="input" type="text" name="fullname" placeholder="Nhập họ và tên">
-            </div>
-        </div>
+    .sidebar a {
+      color: #ddd;
+      text-decoration: none;
+      padding: 12px;
+      font-size: 18px;
+      transition: 0.3s ease;
+      margin: 8px 0;
+      border-radius: 4px;
+    }
 
-        <div class="field">
-            <label class="label">Email</label>
-            <div class="control">
-                <input class="input" type="email" name="email" placeholder="Nhập email">
-            </div>
-        </div>
+    .sidebar a:hover {
+      background-color: #ffdd59;
+      color: #343a40;
+      font-weight: bold;
+    }
 
-        <div class="field">
-            <label class="label">Số điện thoại</label>
-            <div class="control">
-                <input class="input" type="tel" name="phone" placeholder="Nhập số điện thoại">
-            </div>
-        </div>
+    /* Content area styles */
+    .content {
+      margin-left: 250px;
+      padding: 40px;
+      flex: 1;
+      background-color: #fff;
+      box-shadow: inset 0 0 10px rgba(0, 0, 0, 0.05);
+    }
 
-        <div class="field">
-            <div class="control">
-                <button class="button is-link" type="submit">Lưu thay đổi</button>
-            </div>
-        </div>
-    </form>
-</div>
+    /* Header styles */
+    .content h1 {
+      font-size: 36px;
+      color: #343a40;
+      margin-bottom: 20px;
+      font-weight: 600;
+      text-transform: uppercase;
+    }
 
-<%- include('footer') %>
+    /* General content text */
+    .content p {
+      font-size: 18px;
+      margin-bottom: 20px;
+      line-height: 1.6;
+    }
+
+    /* Info Cards */
+    .card {
+      background-color: #fff;
+      box-shadow: 0 4px 8px rgba(0, 0, 0, 0.1);
+      border-radius: 8px;
+      padding: 20px;
+      margin-bottom: 20px;
+      transition: transform 0.3s ease, box-shadow 0.3s ease;
+    }
+
+    .card:hover {
+      transform: translateY(-5px);
+      box-shadow: 0 6px 12px rgba(0, 0, 0, 0.15);
+    }
+
+    .card h3 {
+      font-size: 22px;
+      color: #343a40;
+      margin-bottom: 10px;
+    }
+
+    .card p {
+      font-size: 16px;
+      color: #6c757d;
+    }
+
+    /* Logout Button */
+    .logout {
+      margin-top: auto;
+      text-align: center;
+      padding: 15px;
+      font-size: 18px;
+      background-color: #ff4b5c;
+      color: #fff;
+      border: none;
+      width: 100%;
+      border-radius: 4px;
+      cursor: pointer;
+      transition: background-color 0.3s ease;
+    }
+
+    .logout:hover {
+      background-color: #e03a47;
+    }
+
+    /* Media Queries for responsiveness */
+    @media (max-width: 768px) {
+      .sidebar {
+        width: 200px;
+      }
+
+      .content {
+        margin-left: 200px;
+        padding: 20px;
+      }
+
+      .content h1 {
+        font-size: 28px;
+      }
+    }
+  </style>
+</head>
+<body>
+  <%- include('partials/navbar') %>
+
+  <!-- Main Content -->
+  <div class="content">
+    <h1>Welcome to the Admin Dashboard</h1>
+    <p>Chào mừng, <%= user.username %>! Bạn có thể quản lý tất cả các phần của hệ thống từ đây.</p>
+    
+    <!-- Card Section -->
+    <div class="card">
+      <h3>Total Users</h3>
+      <p>Currently, there are <strong>1025</strong> users in the system.</p>
+    </div>
+
+    <div class="card">
+      <h3>Recent Activities</h3>
+      <p>Last login: <strong>12:30 PM, 13 Nov 2024</strong></p>
+    </div>
+
+    <div class="card">
+      <h3>System Statistics</h3>
+      <p>Total Posts: <strong>356</strong></p>
+      <p>Total Categories: <strong>15</strong></p>
+    </div>
+
+  </div>
+
+</body>
+</html>
