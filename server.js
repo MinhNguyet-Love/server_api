@@ -71,7 +71,6 @@ app.post('/tour-news', async (req, res) => {
     res.status(400).send(error);
   }
 });
-
 // Khởi động server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);

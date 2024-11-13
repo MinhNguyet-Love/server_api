@@ -1,0 +1,22 @@
+<!-- footer.ejs -->
+</div> <!-- Đóng container -->
+<script>
+    // Đoạn script chuyển đổi giữa form đăng nhập và chỉnh sửa thông tin
+    document.addEventListener("DOMContentLoaded", function() {
+        const loginForm = document.getElementById('loginForm');
+        const editForm = document.getElementById('editForm');
+
+        // Giả lập trạng thái đăng nhập (có thể được thay thế bằng logic xác thực thực tế)
+        const isLoggedIn = false; // Thay đổi điều kiện này để kiểm tra
+
+        if (isLoggedIn) {
+            loginForm.style.display = 'none';
+            editForm.style.display = 'block';
+        } else {
+            loginForm.style.display = 'block';
+            editForm.style.display = 'none';
+        }
+    });
+</script>
+</body>
+</html>
