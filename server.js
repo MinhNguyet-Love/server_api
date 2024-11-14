@@ -30,8 +30,13 @@ app.use(session({
   secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production' }
+  cookie: {
+    secure: process.env.NODE_ENV === 'production', // Chỉ dùng secure cookie khi ở chế độ production
+    httpOnly: true, // Giúp bảo mật cookie
+    sameSite: 'strict' // Chặn gửi cookie từ domain khác
+  }
 }));
+
 
 // Kết nối tới MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
