@@ -1,20 +1,35 @@
+// /server.js
 require('dotenv').config(); // Đọc các biến môi trường từ file .env
-
+const session = require('express-session');
 const express = require('express');
 const mongoose = require('mongoose');
 const cors = require('cors');
-const TravelNews = require('./models/TravelNews'); // Model cho TravelNews
-const TourNews = require('./models/TourNews'); // Model cho TourNews
-const TravelNews1 = require('./models/thongbao'); // Import model thongbaos
+const authRoutes = require('./routes/authRouters'); // Import các route đăng nhập
+const travelNewsRoutes = require('./routes/travelNewsRoutes'); // Import route tin tức du lịch
+const tourNewsRoutes = require('./routes/tourNewsRoutes'); // Import route tin tức tour
+const notificationRoutes = require('./routes/notificationRoutes'); // Import route thông báo
 
 const app = express();
 const PORT = process.env.PORT || 3000;
 
+// Cấu hình EJS làm view engine
+app.set('view engine', 'ejs');
+app.set('views', './views'); // Chỉ định thư mục chứa các view (mặc định là ./views)
+
 // Middleware
 app.use(cors());
 app.use(express.json());
+app.use(express.urlencoded({ extended: true }));
 
-// Kết nối tới MongoDB bằng biến môi trường
+// Cấu hình session
+app.use(session({
+  secret: process.env.SECRET_KEY,
+  resave: false,
+  saveUninitialized: true,
+  cookie: { secure: process.env.NODE_ENV === 'production' }
+}));
+
+// Kết nối tới MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
   useUnifiedTopology: true,
@@ -22,62 +37,14 @@ mongoose.connect(process.env.MONGODB_URI, {
 .then(() => console.log('Connected to MongoDB'))
 .catch(err => console.error('Could not connect to MongoDB:', err));
 
-// Endpoint để lấy danh sách tin tức du lịch
-app.get('/travel-news', async (req, res) => {
-  try {
-    const news = await TravelNews.find();
-    res.json(news);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+// Sử dụng các route đã tách ra
+app.use('/', authRoutes); // Route cho đăng nhập và quản lý admin
+app.use('/travel-news', travelNewsRoutes); // Route cho travel-news
+app.use('/tour-news', tourNewsRoutes); // Route cho tour-news
+app.use('/thongbao', notificationRoutes); // Route cho thongbao
+app.use('/users', authRoutes); // Route cho users
 
-// Endpoint để lấy danh sách tour news
-app.get('/tour-news', async (req, res) => {
-  try {
-    const tourNews = await TourNews.find();
-    res.json(tourNews);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// Endpoint để lấy danh sách thông báo
-app.get('/thongbao', async (req, res) => {
-  try {
-    const notifications = await TravelNews1.find();
-    res.json(notifications);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
-
-// Endpoint để thêm một tour news mới
-app.post('/tour-news', async (req, res) => {
-  const { imageUrl, title, date, price, days } = req.body;
-
-  const newTourNews = new TourNews({
-    imageUrl,
-    title,
-    date,
-    price,
-    days,
-  });
-
-  try {
-    const savedTourNews = await newTourNews.save();
-    res.status(201).json(savedTourNews);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
 // Khởi động server
 app.listen(PORT, () => {
   console.log(`Server is running on http://localhost:${PORT}`);
 });
-
-
-
-// Sử dụng các route đã khai báo
-app.use('/', authRoutes); // Route cho đăng nhập
-app.use('/users', authRoutes); // Route cho stories
