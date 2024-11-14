@@ -1,26 +1,89 @@
 <!DOCTYPE html>
-<html>
+<html lang="vi">
 <head>
-  <title>Danh sách tin tức du lịch</title>
+  <meta charset="UTF-8">
+  <meta name="viewport" content="width=device-width, initial-scale=1.0">
+  <title>Danh Sách Tin Tức Du Lịch</title>
+  <link href="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/css/bootstrap.min.css" rel="stylesheet">
+  <style>
+    body {
+      font-family: Arial, sans-serif;
+      background-color: #f8f9fa;
+    }
+    .container {
+      margin-top: 50px;
+    }
+    .card {
+      margin-bottom: 20px;
+    }
+    .card-img-top {
+      width: 100%;
+      height: auto;
+    }
+    .card-body {
+      padding: 20px;
+    }
+    .btn-edit, .btn-delete {
+      width: auto;
+      padding: 5px 10px;
+      font-size: 14px;
+    }
+    .btn-edit {
+      background-color: #007bff;
+      color: white;
+    }
+    .btn-edit:hover {
+      background-color: #0056b3;
+    }
+    .btn-delete {
+      background-color: #dc3545;
+      color: white;
+    }
+    .btn-delete:hover {
+      background-color: #c82333;
+    }
+    .btn-group {
+      position: absolute;
+      top: 10px;
+      right: 10px;
+    }
+    h1 {
+      margin-bottom: 30px;
+    }
+    .add-button {
+      margin-bottom: 20px;
+    }
+  </style>
 </head>
 <body>
-  <h1>Danh sách tin tức du lịch</h1>
-  <a href="/travel-news/add">Thêm tin mới</a>
-  <ul>
-    <% news.forEach(item => { %>
-      <li>
-        <h3><%= item.title %></h3>
-        <!-- Hiển thị hình ảnh -->
-        <img src="<%= item.imageUrl %>" alt="<%= item.title %>" width="100">
-        <p><%= item.date %></p>
-        <a href="/travel-news/edit/<%= item._id %>">Chỉnh sửa</a>
-        <form action="/travel-news/delete/<%= item._id %>" method="POST" style="display:inline;">
-          <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
-        </form>
-      </li>
-    <% }) %>
-  </ul>
-  
-  
+
+  <div class="container">
+    <h1 class="text-center">Danh Sách Tin Tức Du Lịch</h1>
+    <a href="/travel-news/add" class="btn btn-success add-button">Thêm Tin Tức</a>
+
+    <div class="row">
+      <% news.forEach(item => { %>
+        <div class="col-md-4">
+          <div class="card">
+            <img src="<%= item.imageUrl %>" class="card-img-top" alt="<%= item.title %>">
+            <div class="card-body">
+              <h5 class="card-title"><%= item.title %></h5>
+              <p class="card-text">Ngày: <%= item.date %></p>
+              <div class="btn-group">
+                <a href="/travel-news/edit/<%= item._id %>" class="btn btn-edit">Sửa</a>
+                <form action="/travel-news/delete/<%= item._id %>" method="POST" style="display:inline;">
+                  <button type="submit" class="btn btn-delete" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
+                </form>
+              </div>
+            </div>
+          </div>
+        </div>
+      <% }) %>
+    </div>
+  </div>
+
+  <script src="https://code.jquery.com/jquery-3.5.1.slim.min.js"></script>
+  <script src="https://cdn.jsdelivr.net/npm/@popperjs/core@2.9.2/dist/umd/popper.min.js"></script>
+  <script src="https://stackpath.bootstrapcdn.com/bootstrap/4.5.2/js/bootstrap.min.js"></script>
 </body>
 </html>
