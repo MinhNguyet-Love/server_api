@@ -24,7 +24,13 @@ app.use(express.urlencoded({ extended: true }));
 // Cấu hình Express để phục vụ hình ảnh từ thư mục assets
 app.use('/assets', express.static('assets')); // Dòng này sẽ phục vụ hình ảnh từ thư mục assets
 
+const corsOptions = {
+  origin: 'https://server-api-opqn.onrender.com', // Đảm bảo chính xác URL của frontend
+  methods: ['GET', 'POST', 'PUT', 'DELETE'],
+  credentials: true // Nếu bạn sử dụng cookie hoặc session
+};
 
+app.use(cors(corsOptions));
 // Cấu hình session
 app.use(session({
   secret: process.env.SECRET_KEY,
