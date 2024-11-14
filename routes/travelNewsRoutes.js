@@ -2,22 +2,17 @@ const express = require('express');
 const router = express.Router();
 const travelNewsController = require('../controllers/travelNewsController');
 
-// Hiển thị danh sách tin tức du lịch
-router.get('/', travelNewsController.getAllTravelNews);
+// Route cho giao diện HTML
+router.get('/', travelNewsController.getAllTravelNewsHTML);
 
-// Render form thêm tin tức mới
+// Route cho API trả về JSON
+router.get('/api', travelNewsController.getAllTravelNewsJSON);
+
+// Các route khác cho việc thêm, chỉnh sửa, xóa tin tức
 router.get('/add', travelNewsController.addTravelNewsForm);
-
-// Xử lý thêm tin tức du lịch
 router.post('/add', travelNewsController.addTravelNews);
-
-// Hiển thị form chỉnh sửa tin tức du lịch
-router.get('/edit/:id', travelNewsController.editTravelNewsForm);  // Đảm bảo router gọi đúng controller
-
-// Xử lý cập nhật tin tức du lịch
+router.get('/edit/:id', travelNewsController.editTravelNewsForm);
 router.post('/edit/:id', travelNewsController.updateTravelNews);
-
-// Xử lý xóa tin tức du lịch
 router.post('/delete/:id', travelNewsController.deleteTravelNews);
 
 module.exports = router;

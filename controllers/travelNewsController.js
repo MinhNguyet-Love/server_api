@@ -1,15 +1,24 @@
 const TravelNews = require('../models/TravelNews');
 
-// Hiển thị danh sách tin tức du lịch
-exports.getAllTravelNews = async (req, res) => {
-  try {
-    const news = await TravelNews.find();
-    res.render('travelNewsList', { news });
-  } catch (error) {
-    res.status(500).send('Lỗi khi hiển thị tin tức du lịch');
-  }
-};
-
+// Hiển thị danh sách tin tức du lịch dưới dạng HTML
+exports.getAllTravelNewsHTML = async (req, res) => {
+    try {
+      const news = await TravelNews.find();
+      res.render('travelNewsList', { news });  // Trả về HTML
+    } catch (error) {
+      res.status(500).send('Lỗi khi hiển thị tin tức du lịch');
+    }
+  };
+  
+  // Hiển thị danh sách tin tức du lịch dưới dạng JSON
+  exports.getAllTravelNewsJSON = async (req, res) => {
+    try {
+      const news = await TravelNews.find();
+      res.json(news);  // Trả về JSON
+    } catch (error) {
+      res.status(500).json({ error: 'Lỗi khi hiển thị tin tức du lịch' });
+    }
+  };
 // Render form thêm tin tức mới
 exports.addTravelNewsForm = (req, res) => {
   res.render('addTravelNews');
