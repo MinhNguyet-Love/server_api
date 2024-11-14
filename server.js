@@ -24,23 +24,15 @@ app.use(express.urlencoded({ extended: true }));
 // Cấu hình Express để phục vụ hình ảnh từ thư mục assets
 app.use('/assets', express.static('assets')); // Dòng này sẽ phục vụ hình ảnh từ thư mục assets
 
-const corsOptions = {
-  origin: 'https://server-api-opqn.onrender.com', // Đảm bảo chính xác URL của frontend
-  methods: ['GET', 'POST', 'PUT', 'DELETE'],
-  credentials: true // Nếu bạn sử dụng cookie hoặc session
-};
+// Middleware for parsing form data
+app.use(express.urlencoded({ extended: true }));  // For form submissions
+app.use(express.json());  // For JSON requests
 
-app.use(cors(corsOptions));
-// Cấu hình session
+// Middleware cho session
 app.use(session({
-  secret: process.env.SECRET_KEY,
+  secret: process.env.SECRET_KEY, // Dùng secret key từ .env
   resave: false,
   saveUninitialized: true,
-  cookie: {
-    secure: process.env.NODE_ENV === 'production', // Chỉ dùng secure cookie khi ở chế độ production
-    httpOnly: true, // Giúp bảo mật cookie
-    sameSite: 'strict' // Chặn gửi cookie từ domain khác
-  }
 }));
 
 
