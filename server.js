@@ -30,8 +30,9 @@ app.use(session({
   secret: process.env.SECRET_KEY,
   resave: false,
   saveUninitialized: true,
-  cookie: { secure: process.env.NODE_ENV === 'production' ? true : false }
+  cookie: { secure: process.env.NODE_ENV === 'production' }
 }));
+
 // Kết nối tới MongoDB
 mongoose.connect(process.env.MONGODB_URI, {
   useNewUrlParser: true,
