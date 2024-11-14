@@ -1,0 +1,26 @@
+<!DOCTYPE html>
+<html>
+<head>
+  <title>Danh sách tin tức du lịch</title>
+</head>
+<body>
+  <h1>Danh sách tin tức du lịch</h1>
+  <a href="/travel-news/add">Thêm tin mới</a>
+  <ul>
+    <% news.forEach(item => { %>
+      <li>
+        <h3><%= item.title %></h3>
+        <!-- Hiển thị hình ảnh -->
+        <img src="<%= item.imageUrl %>" alt="<%= item.title %>" width="100">
+        <p><%= item.date %></p>
+        <a href="/travel-news/edit/<%= item._id %>">Chỉnh sửa</a>
+        <form action="/travel-news/delete/<%= item._id %>" method="POST" style="display:inline;">
+          <button type="submit" onclick="return confirm('Bạn có chắc chắn muốn xóa?')">Xóa</button>
+        </form>
+      </li>
+    <% }) %>
+  </ul>
+  
+  
+</body>
+</html>

@@ -21,6 +21,10 @@ app.use(cors());
 app.use(express.json());
 app.use(express.urlencoded({ extended: true }));
 
+// Cấu hình Express để phục vụ hình ảnh từ thư mục assets
+app.use('/assets', express.static('assets')); // Dòng này sẽ phục vụ hình ảnh từ thư mục assets
+
+
 // Cấu hình session
 app.use(session({
   secret: process.env.SECRET_KEY,
