@@ -1,36 +1,26 @@
-// /routes/tourNewsRoutes.js
 const express = require('express');
 const router = express.Router();
-const TourNews = require('../models/TourNews'); // Model cho TourNews
+const tourNewsController = require('../controllers/tourNewsController');
 
-// Route để lấy danh sách tour news
-router.get('/', async (req, res) => {
-  try {
-    const tourNews = await TourNews.find();
-    res.json(tourNews);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+// Hiển thị danh sách tour (HTML)
+router.get('/', tourNewsController.getAllTourNewsHTML);
 
-// Route để thêm một tour news mới
-router.post('/', async (req, res) => {
-  const { imageUrl, title, date, price, days } = req.body;
+// Hiển thị danh sách tour (JSON)
+router.get('/json', tourNewsController.getAllTourNewsJSON);
 
-  const newTourNews = new TourNews({
-    imageUrl,
-    title,
-    date,
-    price,
-    days,
-  });
+// Hiển thị form thêm tour mới
+router.get('/add', tourNewsController.addTourNewsForm);
 
-  try {
-    const savedTourNews = await newTourNews.save();
-    res.status(201).json(savedTourNews);
-  } catch (error) {
-    res.status(400).send(error);
-  }
-});
+// Xử lý thêm tour mới
+router.post('/add', tourNewsController.addTourNews);
+
+// Hiển thị form chỉnh sửa tour
+router.get('/edit/:id', tourNewsController.editTourNewsForm);
+
+// Xử lý cập nhật tour
+router.post('/edit/:id', tourNewsController.updateTourNews);
+
+// Xử lý xóa tour
+router.get('/delete/:id', tourNewsController.deleteTourNews);
 
 module.exports = router;

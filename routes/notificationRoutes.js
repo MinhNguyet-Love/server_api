@@ -1,16 +1,15 @@
-// /routes/notificationRoutes.js
 const express = require('express');
 const router = express.Router();
-const TravelNews1 = require('../models/thongbao'); // Model cho Thông báo
+const thongbaoController = require('../controllers/thongbaoController');
 
-// Route để lấy danh sách thông báo
-router.get('/', async (req, res) => {
-  try {
-    const notifications = await TravelNews1.find();
-    res.json(notifications);
-  } catch (error) {
-    res.status(500).send(error);
-  }
-});
+// Route để hiển thị danh sách thông báo
+router.get('/', thongbaoController.getAllThongbaos);
+
+// Các route khác như thêm, sửa, xóa
+router.get('/add', thongbaoController.addThongbaoForm);
+router.post('/add', thongbaoController.addThongbao);
+router.get('/edit/:id', thongbaoController.editThongbaoForm);
+router.post('/edit/:id', thongbaoController.updateThongbao);
+router.get('/delete/:id', thongbaoController.deleteThongbao);
 
 module.exports = router;
