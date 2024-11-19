@@ -39,7 +39,8 @@
     }
 
     input[type="text"],
-    input[type="date"] {
+    input[type="date"],
+    input[type="file"] {
       width: 100%;
       padding: 10px;
       margin-bottom: 20px;
@@ -50,7 +51,8 @@
     }
 
     input[type="text"]:focus,
-    input[type="date"]:focus {
+    input[type="date"]:focus,
+    input[type="file"]:focus {
       border-color: #4A90E2;
       outline: none;
     }
@@ -84,20 +86,36 @@
     .form-footer a:hover {
       text-decoration: underline;
     }
+
+    .image-preview {
+      margin-top: 10px;
+      max-width: 100%;
+      height: auto;
+    }
   </style>
 </head>
 <body>
   <div class="container">
     <h1>Chỉnh sửa Thông Báo</h1>
-    <form action="/thongbao/edit/<%= thongbao._id %>" method="POST">
-      <label for="tieude">Tiêu đề</label>
+    <form action="/thongbao/edit/<%= thongbao._id %>" method="POST" enctype="multipart/form-data">
+      <label for="tieude">Tiêu đề:</label>
       <input type="text" id="tieude" name="tieude" value="<%= thongbao.tieude %>" required>
 
-      <label for="title">Title</label>
+      <label for="title">Tiêu đề phụ:</label>
       <input type="text" id="title" name="title" value="<%= thongbao.title %>" required>
 
-      <label for="date">Ngày</label>
+      <label for="date">Ngày:</label>
       <input type="date" id="date" name="date" value="<%= thongbao.date %>" required>
+
+      <label for="image">Hình ảnh:</label>
+      <input type="file" id="image" name="image">
+
+      <% if (thongbao.image) { %>
+        <div class="image-preview">
+          <p><strong>Hình ảnh hiện tại:</strong></p>
+          <img src="<%= thongbao.image %>" alt="Hình ảnh hiện tại" width="100%">
+        </div>
+      <% } %>
 
       <button type="submit">Cập nhật</button>
     </form>

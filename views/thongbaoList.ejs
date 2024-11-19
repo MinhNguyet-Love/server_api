@@ -93,7 +93,7 @@
       margin-top: 10px;
     }
 
-    .notification-actions  {
+    .notification-actions a {
       color: #1d91df; /* Màu xanh dương cho nút chỉnh sửa */
       font-size: 14px;
       text-decoration: none;
@@ -202,15 +202,17 @@
   </style>
   <script>
     function confirmDelete(event) {
-      event.preventDefault();
+      event.preventDefault();  // Ngừng hành động mặc định (điều hướng trang)
       const confirmationModal = document.getElementById('confirmationModal');
       confirmationModal.style.display = 'flex';
-      const deleteUrl = event.target.href;
+      const deleteUrl = event.target.closest('a').href;  // Lấy URL xóa từ thẻ <a>
 
+      // Xử lý khi nhấn "Xóa" trong modal
       document.getElementById('confirmDeleteBtn').onclick = function() {
-        window.location.href = deleteUrl; // Thực hiện xóa
+        window.location.href = deleteUrl; // Điều hướng đến URL để xóa thông báo
       };
 
+      // Xử lý khi nhấn "Hủy" trong modal
       document.getElementById('cancelDeleteBtn').onclick = function() {
         confirmationModal.style.display = 'none'; // Đóng modal khi hủy
       };

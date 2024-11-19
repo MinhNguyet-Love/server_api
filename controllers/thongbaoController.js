@@ -1,4 +1,4 @@
-const Thongbao = require('../models/Thongbao');
+const Thongbao = require('../models/thongbao');
 
 // Hiển thị danh sách thông báo
 exports.getAllThongbaos = async (req, res) => {
@@ -18,9 +18,10 @@ exports.addThongbaoForm = (req, res) => {
 // Thêm thông báo
 exports.addThongbao = async (req, res) => {
   const { tieude, title, date } = req.body;
+  const image = req.file ? req.file.path : null; // Lấy đường dẫn hình ảnh nếu có
 
   try {
-    const newThongbao = new Thongbao({ tieude, title, date });
+    const newThongbao = new Thongbao({ tieude, title, date, image });
     await newThongbao.save();
     res.redirect('/thongbao');
   } catch (error) {
@@ -44,9 +45,13 @@ exports.editThongbaoForm = async (req, res) => {
 // Cập nhật thông báo
 exports.updateThongbao = async (req, res) => {
   const { tieude, title, date } = req.body;
+  const image = req.file ? req.file.path : null; // Lấy đường dẫn hình ảnh nếu có
 
   try {
-    await Thongbao.findByIdAndUpdate(req.params.id, { tieude, title, date });
+    const updateData = { tieude, title, date };
+    if (image) updateData.image = image; // Cập nhật trường hình ảnh nếu có
+
+    await Thongbao.findByIdAndUpdate(req.params.id, updateData);
     res.redirect('/thongbao');
   } catch (error) {
     res.status(500).send('Lỗi khi cập nhật thông báo');

@@ -3,11 +3,12 @@ const mongoose = require('mongoose');
 const travelNewsSchema1 = new mongoose.Schema({
   tieude: { type: String, required: true },
   title: { type: String, required: true },
-  date: { type: String, required: true }, // You could also use Date type if you prefer
+  date: { type: Date, required: true }, // Thay đổi kiểu thành Date
+  image: { type: String, required: false }, // Thêm trường hình ảnh
 });
 
-// Create the model using the schema
-const TravelNews1 = mongoose.model('thongbao', travelNewsSchema1);
+// Tạo model với schema
+const TravelNews1 = mongoose.model('Thongbao', travelNewsSchema1);
 
-// Export the model
+// Export model
 module.exports = TravelNews1;
