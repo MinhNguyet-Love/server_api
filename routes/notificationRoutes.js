@@ -5,17 +5,17 @@ const upload = multer({ dest: 'uploads/' });  // Cấu hình thư mục lưu tr�
 
 const router = express.Router();
 
-// Route để hiển thị danh sách thông báo
-router.get('/', thongbaoController.getAllThongbaos);
+// Hiển thị danh sách thông báo dưới dạng HTML
+router.get('/', thongbaoController.getAllThongbaosHTML);
 
-// Các route khác như thêm, sửa, xóa
+// Hiển thị danh sách thông báo dưới dạng JSON
+router.get('/api', thongbaoController.getAllThongbaosJSON);
+
+// Các route khác (add, edit, update, delete) không thay đổi...
 router.get('/add', thongbaoController.addThongbaoForm);
-
-// Sử dụng `multer` để xử lý tệp tải lên trước khi gửi dữ liệu vào controller
-router.post('/add', upload.single('image'), thongbaoController.addThongbao); // 'image' là tên trường trong form
-
+router.post('/add', upload.single('image'), thongbaoController.addThongbao);
 router.get('/edit/:id', thongbaoController.editThongbaoForm);
-router.post('/edit/:id', thongbaoController.updateThongbao);
+router.post('/edit/:id', upload.single('image'), thongbaoController.updateThongbao);
 router.get('/delete/:id', thongbaoController.deleteThongbao);
 
 module.exports = router;

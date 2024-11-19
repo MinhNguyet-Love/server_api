@@ -1,12 +1,22 @@
 const Thongbao = require('../models/thongbao');
 
-// Hiển thị danh sách thông báo
-exports.getAllThongbaos = async (req, res) => {
+// Hiển thị danh sách thông báo dưới dạng HTML
+exports.getAllThongbaosHTML = async (req, res) => {
   try {
     const thongbaos = await Thongbao.find();
     res.render('thongbaoList', { thongbaos });
   } catch (error) {
     res.status(500).send('Lỗi khi hiển thị thông báo');
+  }
+};
+
+// Hiển thị danh sách thông báo dưới dạng JSON
+exports.getAllThongbaosJSON = async (req, res) => {
+  try {
+    const thongbaos = await Thongbao.find();
+    res.json(thongbaos);  // Trả về dữ liệu dưới dạng JSON
+  } catch (error) {
+    res.status(500).json({ error: 'Lỗi khi hiển thị thông báo' });
   }
 };
 

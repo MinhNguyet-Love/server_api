@@ -6,7 +6,7 @@ const tourNewsController = require('../controllers/tourNewsController');
 router.get('/', tourNewsController.getAllTourNewsHTML);
 
 // Hiển thị danh sách tour (JSON)
-router.get('/json', tourNewsController.getAllTourNewsJSON);
+router.get('/api', tourNewsController.getAllTourNewsJSON);
 
 // Hiển thị form thêm tour mới
 router.get('/add', tourNewsController.addTourNewsForm);
